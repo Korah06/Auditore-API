@@ -15,6 +15,10 @@ export class TasksService {
         return tasks
     }
 
+    async getTask(id: string): Promise<Task> {
+        return await this.taskModel.findById(id)
+    }
+
     async createTask(createTaskDTO: CreateTaskDto): Promise<Task> {
         const task = new this.taskModel(createTaskDTO)
         console.log('Modelo de la tarea creado');

@@ -1,26 +1,57 @@
 import {
     Controller, Post, Get, Put, Delete, Patch, Res,
-    HttpStatus, Body, Query, Param, NotFoundException,
+    HttpStatus, Body, Query, Param, NotFoundException, Headers,
     NotAcceptableException
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
+import { CreateTaskDto } from './dto/tasks.dto';
 
 @Controller('tasks')
 export class TasksController {
     constructor(private tasksService: TasksService) { }
 
     @Get('/')
-    async getProducts(@Res() res) {
+    async getTasks(@Res() res) {
         const tasks = await this.tasksService.getTasks()
-        console.log('Enviando tareas...');
 
         if (tasks.length == 0) {
             throw new NotFoundException('Do not exist any task');
         }
+        console.log('Enviando tareas...');
 
+        console.log(tasks);
         return res.status(HttpStatus.OK).json({
             message: 'Tareas: ',
             tasks
+        })
+    }
+
+    @Get('/single')
+    async getTask(@Res() res, @Headers('id') id: string) {
+
+        if (!id.match(/^[0-9a-fA-F]{24}$/)) { throw new NotAcceptableException('The id format is not correct') }
+
+        const task = await this.tasksService.getTask(id)
+        if (!task) { throw new NotFoundException('Task does not exist'); }
+
+        console.log('Enviando tarea...');
+
+        console.log(task);
+        return res.status(HttpStatus.OK).json({
+            message: 'Tarea: ',
+            task
+        })
+    }
+
+    @Post('/')
+    async createTask(@Res() res, @Body() createTaskDTO: CreateTaskDto) {
+
+        const task = await this.tasksService.createTask(createTaskDTO)
+        console.log(task);
+
+        return res.status(HttpStatus.OK).json({
+            message: 'Tarea creada: ',
+            task
         })
     }
 }
