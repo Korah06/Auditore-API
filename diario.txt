@@ -1,0 +1,2 @@
+#PRIMER DIA
+Creación de la estructura de la API y montado de la base de datos a parte de montar toda la conexión con la base de datos.
