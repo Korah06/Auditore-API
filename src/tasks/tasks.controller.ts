@@ -54,4 +54,33 @@ export class TasksController {
             task
         })
     }
+
+    @Put('/')
+    async modifyTask(@Res() res, @Body() createTaskDTO: CreateTaskDto, @Headers('id') id: string) {
+
+        if (!id.match(/^[0-9a-fA-F]{24}$/)) { throw new NotAcceptableException('The id format is not correct') }
+
+        const modified = await this.tasksService.modifyTask(createTaskDTO, id)
+        if (!modified) { throw new NotFoundException('Task does not exist'); }
+
+        console.log('Modificando tarea ', id);
+
+        return res.status(HttpStatus.OK).json({
+            message: 'Tarea modificada: ',
+            modified
+        })
+    }
+
+    @Delete('/')
+    async deleteTask(@Res() res, @Headers('id') id: string) {
+        if (!id.match(/^[0-9a-fA-F]{24}$/)) { throw new NotAcceptableException('The id format is not correct') }
+        const deleted = await this.tasksService.deleteTask(id)
+        if (!deleted) { throw new NotFoundException('Task does not exist'); }
+
+        return res.status(HttpStatus.OK).json({
+            message: 'Tarea eliminada: ',
+            deleted
+        })
+
+    }
 }

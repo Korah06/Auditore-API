@@ -24,4 +24,14 @@ export class TasksService {
         console.log('Modelo de la tarea creado');
         return await task.save()
     }
+
+    async modifyTask(createTaskDTO: CreateTaskDto, id: string): Promise<Task> {
+        const task = this.taskModel.findByIdAndUpdate(id, createTaskDTO, { new: true });
+        return task
+    }
+
+    async deleteTask(id: string): Promise<Task> {
+        const task = await this.taskModel.findByIdAndDelete(id)
+        return task
+    }
 }
