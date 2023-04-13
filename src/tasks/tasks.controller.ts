@@ -1,15 +1,18 @@
 import {
     Controller, Post, Get, Put, Delete, Patch, Res,
     HttpStatus, Body, Query, Param, NotFoundException, Headers,
-    NotAcceptableException
+    NotAcceptableException,
+    UseGuards
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/tasks.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('tasks')
 export class TasksController {
     constructor(private tasksService: TasksService) { }
 
+    @UseGuards(JwtAuthGuard)
     @Get('/')
     async getTasks(@Res() res) {
         const tasks = await this.tasksService.getTasks()
