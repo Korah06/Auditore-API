@@ -2,7 +2,8 @@ import {
     Controller, Post, Get, Put, Delete, Patch, Res,
     HttpStatus, Body, Query, Param, NotFoundException, Headers,
     NotAcceptableException,
-    UseGuards
+    UseGuards,
+    Request
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/tasks.dto';
@@ -12,10 +13,32 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 export class TasksController {
     constructor(private tasksService: TasksService) { }
 
+
+    //PARA TRABAJAR CON LOS ROLES ES MEDIANTE EL @Request
+    //Se deberá de comprobar el req.user.rol si es del rol admin para que pueda realizar o no diferentes cuestiones
     @UseGuards(JwtAuthGuard)
     @Get('/')
-    async getTasks(@Res() res) {
+    async getTasks(@Res() res, @Request() req) {
+
         const tasks = await this.tasksService.getTasks()
+
+        if (tasks.length == 0) {
+            throw new NotFoundException('Do not exist any task');
+        }
+        console.log('Enviando tareas...');
+
+        console.log(tasks);
+        return res.status(HttpStatus.OK).json({
+            message: 'Tareas: ',
+            tasks
+        })
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('/mytasks')
+    async getUserTasks(@Res() res, @Request() req) {
+
+        const tasks = await this.tasksService.getMyTasks(req.user.userId)
 
         if (tasks.length == 0) {
             throw new NotFoundException('Do not exist any task');

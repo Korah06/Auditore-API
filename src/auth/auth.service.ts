@@ -16,8 +16,15 @@ export class AuthService {
   ) { }
 
   async register(registerAuthDto: RegisterAuthDto) {
-    const { password } = registerAuthDto
-    const plainToHash = await hash(password, process.env.SALT_ROUNDS)
+    const { password, email } = registerAuthDto
+
+    const findUser = await this.userModel.findOne({ email })
+
+    if (findUser) { throw new NotAcceptableException }
+
+    //EL 8 son los salt rounds
+    const plainToHash = await hash(password, 8)
+
     registerAuthDto = { ...registerAuthDto, password: plainToHash };
     return this.userModel.create(registerAuthDto)
   }
@@ -34,10 +41,7 @@ export class AuthService {
     const payload = { id: findUser._id, email: findUser.email, rol: findUser.rol }
     const token = await this.jwtAuthService.signAsync(payload)
 
-    const data = {
-      user: findUser,
-      token
-    };
-    return data
+    token
+    return token
   }
 }

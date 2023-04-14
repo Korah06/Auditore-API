@@ -8,8 +8,8 @@ export class AuthController {
   constructor(private readonly authService: AuthService) { }
 
   @Post('register')
-  registerUser(@Res() res, @Body() userObject: RegisterAuthDto) {
-    const user = this.authService.register(userObject)
+  async registerUser(@Res() res, @Body() userObject: RegisterAuthDto) {
+    const user = await this.authService.register(userObject)
 
     return res.status(HttpStatus.OK).json({
       message: 'usuario registrado: ',
@@ -19,11 +19,13 @@ export class AuthController {
 
   @Post('login')
   async loginUser(@Res() res, @Body() userObject: LoginAuthDto) {
-    const logged = await this.authService.login(userObject)
+
+    const token = await this.authService.login(userObject)
+
 
     return res.status(HttpStatus.OK).json({
       message: 'usuario logueado: ',
-      logged
+      token
     })
   }
 }

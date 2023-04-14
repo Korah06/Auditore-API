@@ -11,7 +11,7 @@ export class UsersController {
     constructor(private usersService: UsersService) { }
 
     @Post('/')
-    async createTask(@Res() res, @Body() createUserDTO: CreateUserDto) {
+    async createUser(@Res() res, @Body() createUserDTO: CreateUserDto) {
 
         const user = await this.usersService.createUser(createUserDTO)
         console.log(user);

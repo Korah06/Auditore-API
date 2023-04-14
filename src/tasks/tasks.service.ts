@@ -15,6 +15,13 @@ export class TasksService {
         return tasks
     }
 
+    async getMyTasks(id: string): Promise<Task[]> {
+        console.log('Cargando tareas...');
+        const tasks = await this.taskModel.find({ userId: id })
+        console.log('Tareas Cargadas');
+        return tasks
+    }
+
     async getTask(id: string): Promise<Task> {
         return await this.taskModel.findById(id)
     }
