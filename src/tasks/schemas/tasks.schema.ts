@@ -1,30 +1,22 @@
-import { Schema } from "mongoose";
+import { SchemaFactory, Schema, Prop } from "@nestjs/mongoose";
 
-//Esquema de las tareas
-export const TasksSchema = new Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    description: {
-        type: String,
-        required: false
-    },
-    startDate: {
-        type: Date,
-        default: Date.now
-    },
-    endDate: {
-        type: Date,
-        default: Date.now
-    },
-    categoryId: {
-        type: String,
-        required: true
-    },
-    userId: {
-        type: String,
-        required: true
-    },
-})
+export type TasksDocument = Tasks & Document;
 
+@Schema()
+export class Tasks {
+    @Prop({ required: true })
+    name: string;
+    @Prop({ required: true })
+    description: string;
+    @Prop({ required: false })
+    startDate: Date;
+    @Prop({ required: true })
+    endDate: Date;
+    @Prop({ required: true })
+    categoryId: string;
+    @Prop({ required: true })
+    userId: string;
+    @Prop({ required: true })
+    completed: boolean;
+}
+export const TasksSchema = SchemaFactory.createForClass(Tasks)
