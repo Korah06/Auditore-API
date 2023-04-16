@@ -1,4 +1,5 @@
 export class CreateCategoryDto {
     readonly name: string
-    readonly pendingTasks: number
+    readonly color: string
+    readonly userId: string
 }

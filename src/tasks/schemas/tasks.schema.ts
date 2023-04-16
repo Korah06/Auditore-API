@@ -8,15 +8,15 @@ export class Tasks {
     name: string;
     @Prop({ required: true })
     description: string;
-    @Prop({ required: false })
+    @Prop({ required: false, default: Date.now() })
     startDate: Date;
-    @Prop({ required: true })
+    @Prop({ required: true, default: Date.now() })
     endDate: Date;
     @Prop({ required: true })
     categoryId: string;
     @Prop({ required: true })
     userId: string;
-    @Prop({ required: true })
+    @Prop({ required: true, default: false })
     completed: boolean;
 }
 export const TasksSchema = SchemaFactory.createForClass(Tasks)

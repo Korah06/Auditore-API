@@ -6,7 +6,7 @@ import {
     Request
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
-import { CreateTaskDto } from './dto/tasks.dto';
+import { CreateTaskDto, UpdateTaskDto } from './dto/tasks.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('tasks')
@@ -93,6 +93,21 @@ export class TasksController {
 
         return res.status(HttpStatus.OK).json({
             message: 'Tarea modificada: ',
+            modified
+        })
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Put('/updatetasks')
+    async modifyListOfTasks(@Res() res, @Body() updateTaskDTO: UpdateTaskDto[]) {
+
+
+        const modified = await this.tasksService.modifyTasks(updateTaskDTO,)
+
+        console.log('Modificando tareas');
+
+        return res.status(HttpStatus.OK).json({
+            message: 'Tareas modificadas: ',
             modified
         })
     }
