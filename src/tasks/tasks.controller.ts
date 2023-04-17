@@ -69,10 +69,22 @@ export class TasksController {
         })
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post('/')
-    async createTask(@Res() res, @Body() createTaskDTO: CreateTaskDto) {
+    async createTask(@Res() res, @Body() createTaskDTO: CreateTaskDto, @Request() req) {
 
-        const task = await this.tasksService.createTask(createTaskDTO)
+        console.log(createTaskDTO);
+        const newTask: CreateTaskDto = {
+            categoryId: createTaskDTO.categoryId,
+            description: createTaskDTO.description,
+            name: createTaskDTO.name,
+            userId: req.user.userId,
+            endDate: createTaskDTO.endDate,
+            startDate: createTaskDTO.startDate,
+            completed: false
+        }
+
+        const task = await this.tasksService.createTask(newTask)
         console.log(task);
 
         return res.status(HttpStatus.OK).json({

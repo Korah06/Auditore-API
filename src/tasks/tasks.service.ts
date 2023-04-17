@@ -29,6 +29,8 @@ export class TasksService {
     async createTask(createTaskDTO: CreateTaskDto): Promise<Task> {
         const task = new this.taskModel(createTaskDTO)
         console.log('Modelo de la tarea creado');
+        console.log(task);
+
         return await task.save()
     }
 
