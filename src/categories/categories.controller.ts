@@ -48,15 +48,22 @@ export class CategoriesController {
         })
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post('/')
-    async createCategory(@Res() res, @Body() createCategoryDto: CreateCategoryDto) {
+    async createCategory(@Res() res, @Body() createCategoryDto: CreateCategoryDto, @Request() req) {
 
-        const category = await this.categoryService.createCategory(createCategoryDto);
-        console.log(category);
+        const newCategory: CreateCategoryDto = {
+            name: createCategoryDto.name,
+            color: createCategoryDto.color,
+            userId: req.user.userId
+        }
+        const category = await this.categoryService.createCategory(newCategory);
+        console.log(category._id);
+        const id = category._id;
 
         return res.status(HttpStatus.OK).json({
             message: 'Categoria creada: ',
-            category
+            id
         })
     }
 }
