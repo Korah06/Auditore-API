@@ -124,6 +124,7 @@ export class TasksController {
         })
     }
 
+    @UseGuards(JwtAuthGuard)
     @Delete('/')
     async deleteTask(@Res() res, @Headers('id') id: string) {
         if (!id.match(/^[0-9a-fA-F]{24}$/)) { throw new NotAcceptableException('The id format is not correct') }

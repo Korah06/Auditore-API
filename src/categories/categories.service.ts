@@ -27,4 +27,9 @@ export class CategoriesService {
         console.log('Modelo de la categoria creado');
         return await category.save()
     }
+
+    async deleteCategory(id: string): Promise<Category> {
+        const category = await this.categoryModel.findByIdAndDelete(id)
+        return category
+    }
 }

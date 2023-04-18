@@ -66,4 +66,18 @@ export class CategoriesController {
             id
         })
     }
+
+    @UseGuards(JwtAuthGuard)
+    @Delete('/')
+    async deleteCategory(@Res() res, @Headers('id') id: string) {
+        if (!id.match(/^[0-9a-fA-F]{24}$/)) { throw new NotAcceptableException('The id format is not correct') }
+        const deleted = await this.categoryService.deleteCategory(id)
+        if (!deleted) { throw new NotFoundException('Category does not exist'); }
+
+        return res.status(HttpStatus.OK).json({
+            message: 'Categoria eliminada: ',
+            deleted
+        })
+
+    }
 }
