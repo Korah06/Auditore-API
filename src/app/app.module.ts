@@ -7,9 +7,10 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from 'src/users/users.module';
 import { CategoriesModule } from 'src/categories/categories.module';
 import { AuthModule } from 'src/auth/auth.module';
+import { ChronoModule } from 'src/chrono/chrono.module';
 
 @Module({
-  imports: [TasksModule, AuthModule, UsersModule, CategoriesModule, ConfigModule.forRoot(), MongooseModule.forRoot(process.env.MONGO_URI)],
+  imports: [TasksModule, ChronoModule, AuthModule, UsersModule, CategoriesModule, ConfigModule.forRoot(), MongooseModule.forRoot(process.env.MONGO_URI)],
   controllers: [AppController],
   providers: [AppService],
 })
