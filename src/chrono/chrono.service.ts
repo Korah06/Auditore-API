@@ -31,7 +31,8 @@ export class ChronoService {
     return `This action updates a #${id} chrono`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} chrono`;
+  async deleteChrono(id: string): Promise<Chrono> {
+    const chrono = await this.chronoModel.findByIdAndDelete(id)
+    return chrono
   }
 }

@@ -44,18 +44,17 @@ export class ChronoController {
     })
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.chronoService.findOne(+id);
-  }
+  @UseGuards(JwtAuthGuard)
+  @Delete('/')
+  async remove(@Headers('id') id: string, @Request() req, @Res() res) {
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) { throw new NotAcceptableException('The id format is not correct') }
+    const deleted = await this.chronoService.deleteChrono(id)
+    if (!deleted) { throw new NotFoundException('Category does not exist'); }
 
-  @Patch(':id')
-  update(@Param('id') id: string,) {
-    return this.chronoService.update(+id);
-  }
+    return res.status(HttpStatus.OK).json({
+      message: 'Cronometro eliminado: ',
+      deleted
+    })
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.chronoService.remove(+id);
   }
 }
