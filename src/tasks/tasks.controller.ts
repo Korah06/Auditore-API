@@ -52,6 +52,24 @@ export class TasksController {
         })
     }
 
+    @UseGuards(JwtAuthGuard)
+    @Get('/mytasksCategory')
+    async getUserCatTasks(@Res() res, @Request() req, @Headers('id') id: string) {
+
+        const tasks = await this.tasksService.getMyCatTasks(req.user.userId, id)
+
+        if (tasks.length == 0) {
+            throw new NotFoundException('Do not exist any task');
+        }
+        console.log('Enviando tareas...');
+
+        console.log(tasks);
+        return res.status(HttpStatus.OK).json({
+            message: 'Tareas: ',
+            tasks
+        })
+    }
+
     @Get('/single')
     async getTask(@Res() res, @Headers('id') id: string) {
 
