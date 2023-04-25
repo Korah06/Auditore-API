@@ -13,5 +13,7 @@ export class Chronos {
     categoryId: string;
     @Prop({ required: true })
     minutes: number;
+    @Prop({ required: true })
+    IsPomodoro: boolean;
 }
 export const ChronoSchema = SchemaFactory.createForClass(Chronos)

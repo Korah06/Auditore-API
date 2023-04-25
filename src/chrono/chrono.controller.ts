@@ -15,11 +15,14 @@ export class ChronoController {
   @Post("/")
   async create(@Res() res, @Body() createChronoDto: CreateChronoDto, @Request() req) {
 
+    console.log(createChronoDto);
+
     const newChrono: CreateChronoDto = {
       name: createChronoDto.name,
       categoryId: createChronoDto.categoryId,
       minutes: createChronoDto.minutes,
-      userId: req.user.userId
+      userId: req.user.userId,
+      IsPomodoro: createChronoDto.IsPomodoro
     }
 
     const chrono = this.chronoService.create(newChrono);

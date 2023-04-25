@@ -5,4 +5,5 @@ export interface Chrono extends Document {
     readonly minutes: number
     readonly categoryId: string
     readonly userId: string
+    readonly IsPomodoro: boolean
 }
