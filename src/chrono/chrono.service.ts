@@ -18,6 +18,7 @@ export class ChronoService {
   async findAll(id: string): Promise<Chrono[]> {
     console.log('Cargando cronos...');
     const chronos = await this.chronoModel.find({ userId: id })
+    console.log(chronos);
 
     console.log('Cronos Cargadas');
     return chronos;
