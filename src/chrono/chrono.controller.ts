@@ -22,6 +22,7 @@ export class ChronoController {
       categoryId: createChronoDto.categoryId,
       minutes: createChronoDto.minutes,
       userId: req.user.userId,
+      restMinutes: createChronoDto.restMinutes,
       IsPomodoro: createChronoDto.IsPomodoro
     }
 

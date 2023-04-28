@@ -13,6 +13,8 @@ export class Chronos {
     categoryId: string;
     @Prop({ required: true })
     minutes: number;
+    @Prop({ required: false })
+    restMinutes: number;
     @Prop({ required: true })
     IsPomodoro: boolean;
 }
