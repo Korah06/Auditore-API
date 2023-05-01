@@ -13,4 +13,7 @@ export class UsersService {
         console.log('Modelo del usuario creado');
         return await user.save()
     }
+    async getUser(id: string): Promise<User> {
+        return await this.userModel.findById(id)
+    }
 }
