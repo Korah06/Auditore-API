@@ -130,8 +130,6 @@ export class TasksController {
     @UseGuards(JwtAuthGuard)
     @Put('/updatetasks')
     async modifyListOfTasks(@Res() res, @Body() updateTaskDTO: UpdateTaskDto[]) {
-
-
         const modified = await this.tasksService.modifyTasks(updateTaskDTO,)
 
         console.log('Modificando tareas');
@@ -153,6 +151,5 @@ export class TasksController {
             message: 'Tarea eliminada: ',
             deleted
         })
-
     }
 }
