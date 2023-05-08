@@ -82,14 +82,19 @@ export class UsersController {
     }
 
     @Put('/')
-    async modifyTask(@Res() res, @Body() createUserDTO: CreateUserDto, @Headers('id') id: string) {
+    async modifyUser(@Res() res, @Body() createUserDTO: CreateUserDto, @Headers('id') id: string) {
+
+        console.log(createUserDTO);
+
 
         if (!id.match(/^[0-9a-fA-F]{24}$/)) { throw new NotAcceptableException('The id format is not correct') }
 
         const modified = await this.usersService.modifyUser(createUserDTO, id)
         if (!modified) { throw new NotFoundException('Task does not exist'); }
 
-        console.log('Modificando tarea ', id);
+        console.log(modified);
+
+        console.log('Modificando usuario ', id);
 
         return res.status(HttpStatus.OK).json({
             message: 'Tarea modificada: ',
