@@ -1,22 +1,14 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 import { CreateDiagnosticDto } from './dto/diagnostic.dto';
+import { Diagnostic } from './interfaces/diagnostics.interface';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class DiagnosticsService {
-  create(createDiagnosticDto: CreateDiagnosticDto) {
-    return 'This action adds a new diagnostic';
+  constructor(@InjectModel('Diagnostic') private readonly diagnosticModel: Model<Diagnostic>) { }
+  async create(createDiagnosticDto: CreateDiagnosticDto) {
+    return await this.diagnosticModel.create(createDiagnosticDto);
   }
 
-  findAll() {
-    return `This action returns all diagnostics`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} diagnostic`;
-  }
-
-
-  remove(id: number) {
-    return `This action removes a #${id} diagnostic`;
-  }
 }

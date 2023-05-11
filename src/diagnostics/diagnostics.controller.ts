@@ -1,4 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller, Post, Get, Put, Delete, Patch, Res,
+  HttpStatus, Body, Query, Param, NotFoundException, Headers,
+  NotAcceptableException, Request,
+  UseGuards
+} from '@nestjs/common';
 import { DiagnosticsService } from './diagnostics.service';
 import { CreateDiagnosticDto } from './dto/diagnostic.dto';
 
@@ -6,24 +11,26 @@ import { CreateDiagnosticDto } from './dto/diagnostic.dto';
 export class DiagnosticsController {
   constructor(private readonly diagnosticsService: DiagnosticsService) { }
 
-  @Post()
-  create(@Body() createDiagnosticDto: CreateDiagnosticDto) {
-    return this.diagnosticsService.create(createDiagnosticDto);
+  @Post('/create')
+  create(@Res() res, @Body() createDiagnosticDto: CreateDiagnosticDto) {
+    console.log("----------------------HOLA--------------------------");
+
+    console.log(createDiagnosticDto);
+
+    const created = this.diagnosticsService.create(createDiagnosticDto);
+    return res.status(HttpStatus.OK).json({
+      message: 'Diagnostico creado: ',
+      created
+    })
   }
 
   @Get()
   findAll() {
-    return this.diagnosticsService.findAll();
+    // return this.diagnosticsService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.diagnosticsService.findOne(+id);
-  }
-
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.diagnosticsService.remove(+id);
+    // return this.diagnosticsService.findOne(+id);
   }
 }

@@ -9,6 +9,8 @@ export class AuthController {
 
   @Post('register')
   async registerUser(@Res() res, @Body() userObject: RegisterAuthDto) {
+    console.log(userObject);
+
     const user = await this.authService.register(userObject)
 
     return res.status(HttpStatus.OK).json({

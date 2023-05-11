@@ -9,6 +9,10 @@ export class Users {
     name: string;
     @Prop({ required: true })
     surname: string;
+    @Prop({ required: true })
+    avatar: string;
+    @Prop({ required: true })
+    banner: string;
     @Prop({ required: true, unique: true })
     email: string;
     @Prop({ required: true })
