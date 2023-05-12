@@ -5,6 +5,8 @@ export type DiagnosticsDocument = Diagnostics & Document;
 @Schema()
 export class Diagnostics {
     @Prop({ required: true })
+    name: string;
+    @Prop({ required: true })
     workMinutes: number;
     @Prop({ required: true })
     restMinutes: number;

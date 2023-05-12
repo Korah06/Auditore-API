@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { DiagnosticsService } from './diagnostics.service';
 import { CreateDiagnosticDto } from './dto/diagnostic.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('diagnostics')
 export class DiagnosticsController {
@@ -13,7 +14,6 @@ export class DiagnosticsController {
 
   @Post('/create')
   create(@Res() res, @Body() createDiagnosticDto: CreateDiagnosticDto) {
-    console.log("----------------------HOLA--------------------------");
 
     console.log(createDiagnosticDto);
 
@@ -24,9 +24,16 @@ export class DiagnosticsController {
     })
   }
 
-  @Get()
-  findAll() {
-    // return this.diagnosticsService.findAll();
+  @UseGuards(JwtAuthGuard)
+  @Get('/')
+  async findAll(@Res() res, @Request() req) {
+
+    const diagnostics = await this.diagnosticsService.getDiagnostics(req.user.userId);
+
+    return res.status(HttpStatus.OK).json({
+      message: 'Diagnosticos: ',
+      diagnostics
+    })
   }
 
   @Get(':id')

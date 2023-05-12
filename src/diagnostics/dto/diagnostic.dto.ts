@@ -1,4 +1,5 @@
 export class CreateDiagnosticDto {
+    readonly name: string
     readonly workMinutes: number
     readonly restMinutes: number
     readonly repeats: number

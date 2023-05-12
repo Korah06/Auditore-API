@@ -7,8 +7,15 @@ import { Model } from 'mongoose';
 @Injectable()
 export class DiagnosticsService {
   constructor(@InjectModel('Diagnostic') private readonly diagnosticModel: Model<Diagnostic>) { }
+
   async create(createDiagnosticDto: CreateDiagnosticDto) {
     return await this.diagnosticModel.create(createDiagnosticDto);
+  }
+
+  async getDiagnostics(id: string) {
+    const diagnostics = await this.diagnosticModel.find({ idUser: id })
+
+    return diagnostics
   }
 
 }
