@@ -36,8 +36,22 @@ export class DiagnosticsController {
     })
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    // return this.diagnosticsService.findOne(+id);
+  @Get('/single')
+  async getDiagnostic(@Res() res, @Headers('id') id: string) {
+
+    console.log(id);
+
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) { throw new NotAcceptableException('The id format is not correct') }
+
+    const diagnostic = await this.diagnosticsService.getSingleDiagnostic(id)
+    if (!diagnostic) { throw new NotFoundException('diagnostic does not exist'); }
+
+    console.log('Enviando diagnostico...');
+
+    console.log(diagnostic);
+    return res.status(HttpStatus.OK).json({
+      message: 'diagnostic: ',
+      diagnostic
+    })
   }
 }

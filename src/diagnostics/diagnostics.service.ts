@@ -18,4 +18,9 @@ export class DiagnosticsService {
     return diagnostics
   }
 
+  async getSingleDiagnostic(id: string): Promise<Diagnostic> {
+    const diagnostic = await this.diagnosticModel.findById(id)
+    console.log(diagnostic);
+    return diagnostic
+  }
 }
