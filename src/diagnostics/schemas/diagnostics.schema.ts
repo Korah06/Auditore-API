@@ -16,7 +16,7 @@ export class Diagnostics {
     idCategory: string;
     @Prop({ required: true })
     idUser: string;
-    @Prop({ required: true, default: false })
+    @Prop({ required: true, })
     tasksId: string[];
 }
 export const DiagnosticsSchema = SchemaFactory.createForClass(Diagnostics)

@@ -12,12 +12,12 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 export class DiagnosticsController {
   constructor(private readonly diagnosticsService: DiagnosticsService) { }
 
+  @UseGuards(JwtAuthGuard)
   @Post('/create')
-  create(@Res() res, @Body() createDiagnosticDto: CreateDiagnosticDto) {
+  async create(@Res() res, @Body() createDiagnosticDto: CreateDiagnosticDto, @Request() req) {
 
-    console.log(createDiagnosticDto);
+    const created = await this.diagnosticsService.create(createDiagnosticDto, req.user.userId);
 
-    const created = this.diagnosticsService.create(createDiagnosticDto);
     return res.status(HttpStatus.OK).json({
       message: 'Diagnostico creado: ',
       created

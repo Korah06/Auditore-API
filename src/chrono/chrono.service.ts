@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateChronoDto } from './dto/chrono.dto';
 import { Chrono } from './interfaces/chrono.interface';
+import { Task } from 'src/tasks/interfaces/tasks.interface';
 
 @Injectable()
 export class ChronoService {
@@ -33,7 +34,7 @@ export class ChronoService {
   }
 
   async deleteChrono(id: string): Promise<Chrono> {
-    const chrono = await this.chronoModel.findByIdAndDelete(id)
+    const chrono = await this.chronoModel.findByIdAndDelete(id);
     return chrono
   }
 }
